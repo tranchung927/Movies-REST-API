@@ -42,8 +42,11 @@ app.get('/movies/:title', (req, res) => {
 })
 
 app.post('/movies', jsonParser, (req, res) => {
-    console.log(req.body.name)
-    return res.send(req.body)
+    movieStore.add(req.body)
+    console.log(req.body)
+    return res.send({
+        message: "Movie added successfully"
+    })
 })
 
 app.listen(8000, () => {
