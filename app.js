@@ -1,17 +1,19 @@
 let express = require('express')
 let app = express()
 
-const datastore = require('./datastore.json')
+let movies = require('./movie')
 
-let handlerData = (req, res) => {
-    return res.send(datastore)
+let movieStore = new movies()
+
+let handlerMovieData = (req, res) => {
+    return res.send(movieStore.all())
 }
 
 app.get('/', (req, res) => {
     return res.send("Hello World!!")
 })
 
-app.get('/data', handlerData)
+app.get('/movies', handlerMovieData)
 
 app.listen(8000, () => {
     console.log("Server started at 127.0.0.1:8000")
