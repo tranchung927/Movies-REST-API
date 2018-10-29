@@ -10,7 +10,7 @@ let handlerMovieData = (req, res) => {
 }
 
 app.get('/', (req, res) => {
-    return res.send("Hello World!!")
+    return res.redirect('/movies')
 })
 
 app.get('/movies', handlerMovieData)
