@@ -21,6 +21,7 @@ app.get('/movies', handlerMovieData)
 
 app.get('/movies/:title/:year', (req, res) => {
     console.log(req.params)
+    res.statusCode = 404
     return res.send(req.params)
 })
 
