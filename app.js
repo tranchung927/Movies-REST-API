@@ -42,8 +42,22 @@ app.get('/movies/:title', (req, res) => {
 })
 
 app.post('/movies', jsonParser, (req, res) => {
+
+    if (!req.body.Title || req.body.Title.trim().length < 1) {
+        res.statusCode = 400
+        return res.send({
+            message: "Missing or invalid title"
+        })
+    }
+
+    if (movieStore.has(req.body.Title)) {
+        res.statusCode = 400
+        return res.send({
+            message: "Movie already exited"
+        })
+    }
+
     movieStore.add(req.body)
-    console.log(req.body)
     return res.send({
         message: "Movie added successfully"
     })
