@@ -41,6 +41,22 @@ app.get('/movies/:title', (req, res) => {
     })
 })
 
+
+app.put('/movies/:title', urlencodedParser, (req, res) => {
+
+    if (!movieStore.update(req.params.title, req.body)) {
+        res.statusCode = 500 // Internal Server Error
+        return res.send ({
+            message: "Failed to update movie info"
+        })
+    }
+
+    return res.send({
+        message: "Update movie successfully",
+        payload: movieStore.all()
+    })
+})
+
 app.post('/movies', jsonParser, (req, res) => {
 
     if (!req.body.Title || req.body.Title.trim().length < 1) {
