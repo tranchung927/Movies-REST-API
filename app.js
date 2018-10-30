@@ -79,6 +79,23 @@ app.post('/movies', jsonParser, (req, res) => {
     })
 })
 
+app.delete('/movies/:title', (req, res) => {
+
+    if (!movieStore.has(req.params.title)) {
+        res.statusCode = 404
+        return res.send({
+            message: "movie not found"
+        })
+    }
+
+    movieStore.remove(req.params.title)
+
+    return res.send ({
+        message: "Delete movie successfully",
+        payload: movieStore.all()
+    })
+})
+
 app.listen(8000, () => {
     console.log("Server started at 127.0.0.1:8000")
 })

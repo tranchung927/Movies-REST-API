@@ -32,6 +32,10 @@ class Movie {
         this.data = [...oldMoviesList, newMovie]
         return true
     }
+
+    remove(title) {
+        this.data = this.data.filter( m => m.Title !== title)
+    }
 }
 
 module.exports = Movie
