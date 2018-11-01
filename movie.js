@@ -36,6 +36,10 @@ class Movie {
     remove(title) {
         this.data = this.data.filter( m => m.Title !== title)
     }
+
+    search(title) {
+        return this.data.filter( m => m.Title.includes(title) )
+    }
 }
 
 module.exports = Movie

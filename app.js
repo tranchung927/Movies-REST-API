@@ -14,7 +14,11 @@ let movieStore = new movies()
 
 let handlerMovieData = (req, res) => {
     console.log(req.query)
-    return res.send(movieStore.all())
+    let moviesData = movieStore.search(req.query.title) 
+    return res.send({
+        message: "OK",
+        params: moviesData
+    })
 }
 
 app.get('/', (req, res) => {
