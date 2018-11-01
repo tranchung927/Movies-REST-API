@@ -13,6 +13,7 @@ let movies = require('./movie')
 let movieStore = new movies()
 
 let handlerMovieData = (req, res) => {
+    console.log(req.query)
     return res.send(movieStore.all())
 }
 
