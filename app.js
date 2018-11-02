@@ -20,15 +20,15 @@ function paginate(data, size, page) {
 let handlerMovieData = (req, res) => {
     let moviesData = movieStore.all()
 
-    let page = req.query.page || 1,
-        size = req.query.size || 3
+    let page = parseInt(req.query.page) || 1,
+        size = parseInt(req.query.size) || 3
 
         
     if (req.query.title) {
         moviesData = movieStore.search(req.query.title)
     }
     let result = paginate(moviesData, size, page)
-    return res.send({
+    return res.json({
         message: "OK",
         title: req.query.title,
         current_page: page,
@@ -53,11 +53,11 @@ app.get('/movies/:title', (req, res) => {
     let foundMovies = movieStore.find(req.params.title)
     if (foundMovies.lenghth < 1) {
         res.statusCode = 404
-        return res.send({
+        return res.json({
             message: "Movie not found"
         })
     }
-    return res.send({
+    return res.json({
         message: "Found Movie",
         payload: foundMovies.pop()
     })
@@ -68,12 +68,12 @@ app.put('/movies/:title', urlencodedParser, (req, res) => {
 
     if (!movieStore.update(req.params.title, req.body)) {
         res.statusCode = 500 // Internal Server Error
-        return res.send ({
+        return res.json ({
             message: "Failed to update movie info"
         })
     }
 
-    return res.send({
+    return res.json({
         message: "Update movie successfully",
         payload: movieStore.all()
     })
@@ -83,20 +83,20 @@ app.post('/movies', jsonParser, (req, res) => {
 
     if (!req.body.Title || req.body.Title.trim().length < 1) {
         res.statusCode = 400
-        return res.send({
+        return res.json({
             message: "Missing or invalid title"
         })
     }
 
     if (movieStore.has(req.body.Title)) {
         res.statusCode = 400
-        return res.send({
+        return res.json({
             message: "Movie already exited"
         })
     }
 
     movieStore.add(req.body)
-    return res.send({
+    return res.json({
         message: "Movie added successfully"
     })
 })
@@ -105,14 +105,14 @@ app.delete('/movies/:title', (req, res) => {
 
     if (!movieStore.has(req.params.title)) {
         res.statusCode = 404
-        return res.send({
+        return res.json({
             message: "movie not found"
         })
     }
 
     movieStore.remove(req.params.title)
 
-    return res.send ({
+    return res.json ({
         message: "Delete movie successfully",
         payload: movieStore.all()
     })
