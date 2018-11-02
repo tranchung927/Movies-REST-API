@@ -3,10 +3,7 @@ let MovieStore = require('./movie')
 let movieStore = new MovieStore()
 let moviesRouter = express.Router()
 
-function paginate(data, size, page) {
-    let index = page - 1
-    return data.slice(index * size, (index + 1) * size)
-}
+let paginate = require('./util/pageinate')
 
 let handlerMovieData = (req, res) => {
     let moviesData = movieStore.all()
@@ -14,7 +11,6 @@ let handlerMovieData = (req, res) => {
     let page = parseInt(req.query.page) || 1,
         size = parseInt(req.query.size) || 3
 
-        
     if (req.query.title) {
         moviesData = movieStore.search(req.query.title)
     }
