@@ -1,18 +1,18 @@
 class Movie {
     constructor() {
-        this.data = require('./datastore.json')
+        this.moviesData = require('./movies.json')
     }
 
     all() {
-        return this.data
+        return this.moviesData
     }
 
     find(title) {
-        return this.data.filter(m => m.Title === title)
+        return this.moviesData.filter(m => m.title === title)
     }
 
     add(movie) {
-        this.data.push(movie)
+        this.moviesData.push(movie)
     }
 
     has(title) {
@@ -28,17 +28,17 @@ class Movie {
         let oldMovie = movies.pop()
         let newMovie = Object.assign(oldMovie, newInfo)
 
-        let oldMoviesList = this.data.filter( m => m.Title !== title)
-        this.data = [...oldMoviesList, newMovie]
+        let oldMoviesList = this.moviesData.filter( m => m.title !== title)
+        this.moviesData = [...oldMoviesList, newMovie]
         return true
     }
 
     remove(title) {
-        this.data = this.data.filter( m => m.Title !== title)
+        this.moviesData = this.moviesData.filter( m => m.title !== title)
     }
 
     search(title) {
-        return this.data.filter( m => m.Title.includes(title) )
+        return this.moviesData.filter( m => m.title.includes(title) )
     }
 }
 

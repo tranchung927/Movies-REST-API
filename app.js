@@ -12,12 +12,29 @@ let movies = require('./movie')
 
 let movieStore = new movies()
 
+function paginate(data, size, page) {
+    let index = page - 1
+    return data.slice(index * size, (index + 1) * size)
+}
+
 let handlerMovieData = (req, res) => {
-    console.log(req.query)
-    let moviesData = movieStore.search(req.query.title) 
+    let moviesData = movieStore.all()
+
+    let page = req.query.page || 1,
+        size = req.query.size || 3
+
+        
+    if (req.query.title) {
+        moviesData = movieStore.search(req.query.title)
+    }
+    let result = paginate(moviesData, size, page)
     return res.send({
         message: "OK",
-        params: moviesData
+        title: req.query.title,
+        current_page: page,
+        size_one_page: size,
+        total_page: Math.ceil(moviesData.length/size),
+        payload: result
     })
 }
 
